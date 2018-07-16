@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+/* CSS goes here. */
+
+</style>
+<body>
+
+<!-- load D3js -->
+<script src="//d3plus.org/js/d3.js"></script>
+
+<!-- load D3plus after D3js -->
+<script src="//d3plus.org/js/d3plus.js"></script>
+<div id="viz"></div>
+<script>
+
+
+/* JavaScript goes here. */
+
+function make_viz(data){
+  var visualization = d3plus.viz()
+      .container("#viz")
+      .data(data)
+      .type("tree_map")
+      .id("countryOrigin")
+      .size("StudCount")
+      .time("Year")
+      .draw()
+}
+
+
+d3.csv("studentOrigin.csv", function(error, studentOrigin) {
+  if (error) return console.error(error);
+
+  // Coerce data values to be numeric
+  studentOrigin.forEach(function(d) {
+    d3.keys(d).forEach(function(k){
+      if(k != "countryOrigin"){
+        d[k] = +d[k]
+      }
+    })
+  });
+
+  make_viz(studentOrigin);
+});
+
+</script>
